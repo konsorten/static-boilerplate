@@ -15,13 +15,13 @@ Features:
 Clone the repo using `git clone` or by clicking the *Download ZIP* button to the right.
 
 ```sh
-git clone https://github.com/konsorten/boilerplate.git
+git clone https://github.com/konsorten/static-boilerplate-ts.git
 ```
 
 Navigate to the directory to where it was cloned.
 
 ```sh
-cd boilerplate
+cd boilerplate-ts
 ```
 
 Install all dependencies using yarn:
