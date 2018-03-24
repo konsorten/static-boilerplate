@@ -1,10 +1,11 @@
-# Boilerplate
+# Typescript Boilerplate
 
 A starting point for creating static websites with typescript.
 
 Based on [Boilerplate](https://github.com/jadnco/static-boilerplate) by [Jaden Dessureault](https://github.com/jadnco)
 
 Features:
+* Typescript
 * Sass/SCSS
 * Handlebars templating
 * ES6 minification & bundling
