@@ -20,34 +20,34 @@ const tsProject     = typescript.createProject('tsconfig.json');
 const tsLibProject  = typescript.createProject('tsconfig.lib.json');
 
 var paths = {
-  src: { root: 'src' },
-  dist: { root: 'dist' },
-  init: function() {
-    this.src.sass        = this.src.root + '/scss/main.scss';
-    this.src.templates   = this.src.root + '/**/*.hbs';
-    this.src.typescript  = [this.src.root + '/ts/**/*.ts', '!' + this.src.root + '/ts/libs/*.ts'];
-    this.src.libs        = this.src.root + '/ts/libs/*.ts';
-    this.src.images      = this.src.root + '/images/**/*.{jpg,jpeg,svg,png,gif}';
-    this.src.files       = this.src.root + '/*.{html,txt}';
+    src: { root: 'src' },
+    dist: { root: 'dist' },
+    init: function() {
+        this.src.sass        = this.src.root + '/scss/main.scss';
+        this.src.templates   = this.src.root + '/**/*.hbs';
+        this.src.typescript  = [this.src.root + '/ts/**/*.ts', '!' + this.src.root + '/ts/libs/*.ts'];
+        this.src.libs        = this.src.root + '/ts/libs/*.ts';
+        this.src.images      = this.src.root + '/images/**/*.{jpg,jpeg,svg,png,gif}';
+        this.src.files       = this.src.root + '/*.{html,txt}';
 
-    this.dist.css        = this.dist.root + '/css';
-    this.dist.images     = this.dist.root + '/images';
-    this.dist.javascript = this.dist.root + '/js';
-    this.dist.libs       = this.dist.root + '/js/libs';
+        this.dist.css        = this.dist.root + '/css';
+        this.dist.images     = this.dist.root + '/images';
+        this.dist.javascript = this.dist.root + '/js';
+        this.dist.libs       = this.dist.root + '/js/libs';
 
-    return this;
-  },
+        return this;
+    },
 }.init();
 
 function serve() {
-  return browserSync.init({
-    server: paths.dist.root,
-    open: true,
-    notify: false,
+    return browserSync.init({
+        server: paths.dist.root,
+        open: true,
+        notify: false,
 
-    // Whether to listen on external
-    online: false,
-  });
+        // Whether to listen on external
+        online: false,
+    });
 }
 exports.serve = serve;
 
@@ -56,16 +56,16 @@ exports.serve = serve;
  * 
  */
 function styles() {
-  return gulp.src([paths.src.sass])
-    .pipe(sassGlob())
-    .on('error', log)
-    .pipe(sass({
-      includePaths: ['src/scss'],
-    }))
-    .on('error', log)
-    .pipe(prefixer('last 2 versions'))
-    .on('error', log)
-    .pipe(gulp.dest(paths.dist.css));
+    return gulp.src([paths.src.sass])
+        .pipe(sassGlob())
+        .on('error', log)
+        .pipe(sass({
+        includePaths: ['src/scss'],
+        }))
+        .on('error', log)
+        .pipe(prefixer('last 2 versions'))
+        .on('error', log)
+        .pipe(gulp.dest(paths.dist.css));
 }
 exports.styles = styles;
 
@@ -74,19 +74,19 @@ exports.styles = styles;
  * 
  */
 function templates() {
-  var opts = {
-    ignorePartials: true,
-    batch: ['src/partials'],
-  };
+    var opts = {
+        ignorePartials: true,
+        batch: ['src/partials'],
+    };
 
-  return gulp.src([paths.src.root + '/*.hbs'])
-    .pipe(handlebars(null, opts))
-    .on('error', log)
-    .pipe(rename({
-      extname: '.html',
-    }))
-    .on('error', log)
-    .pipe(gulp.dest(paths.dist.root));
+    return gulp.src([paths.src.root + '/*.hbs'])
+        .pipe(handlebars(null, opts))
+        .on('error', log)
+        .pipe(rename({
+        extname: '.html',
+        }))
+        .on('error', log)
+        .pipe(gulp.dest(paths.dist.root));
 }
 exports.templates = templates;
 
@@ -128,40 +128,40 @@ function scripts() {
 exports.scripts = scripts;
 
 function images() {
-  return gulp.src([paths.src.images])
-    .pipe(gulp.dest(paths.dist.images));
+    return gulp.src([paths.src.images])
+        .pipe(gulp.dest(paths.dist.images));
 }
 exports.images = images;
 
 function files() {
-  return gulp.src([paths.src.files])
-    .pipe(gulp.dest(paths.dist.root));
+    return gulp.src([paths.src.files])
+        .pipe(gulp.dest(paths.dist.root));
 }
 exports.files = files;
 
 function lint() {
-  return gulp.src(paths.src.typescript)
-    .pipe(tslint({
-        configuration: './tslint.json',
-        formatter: 'prose'
-    }))
-    .pipe(tslint.report({
-        summarizeFailureOutput: true
-    }))
+    return gulp.src(paths.src.typescript)
+        .pipe(tslint({
+            configuration: './tslint.json',
+            formatter: 'prose'
+        }))
+        .pipe(tslint.report({
+            summarizeFailureOutput: true
+        }));
 }
 exports.lint = lint;
 
 function watch() {
-  gulp.watch('src/scss/**/*.scss', styles);
-  gulp.watch(paths.src.typescript, scripts);
-  gulp.watch(paths.src.templates, templates);
-  gulp.watch('dist/**/*.*').on('change', browserSync.reload);
+    gulp.watch('src/scss/**/*.scss', styles);
+    gulp.watch(paths.src.typescript, scripts);
+    gulp.watch(paths.src.templates, templates);
+    gulp.watch('dist/**/*.*').on('change', browserSync.reload);
 }
 exports.watch = watch;
 
 function deploy() {
-  return gulp.src([paths.dist.root + '/**/*'])
-    .pipe(ghPages());
+    return gulp.src([paths.dist.root + '/**/*'])
+        .pipe(ghPages());
 }
 exports.deploy = deploy;
 
