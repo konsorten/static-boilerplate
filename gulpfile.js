@@ -2,7 +2,6 @@
 
 const gulp          = require('gulp');
 const del           = require('del');
-const util          = require('gulp-util');
 const sass          = require('gulp-sass');
 const prefixer      = require('gulp-autoprefixer');
 const uglify        = require('gulp-uglify');
@@ -16,6 +15,7 @@ const watch         = require('gulp-watch');
 const babel         = require('gulp-babel');
 const typescript    = require('gulp-typescript');
 const tslint        = require('gulp-tslint');
+const log           = require('fancy-log');
 
 const tsProject     = typescript.createProject('tsconfig.json');
 const tsLibProject  = typescript.createProject('tsconfig.lib.json');
@@ -54,13 +54,13 @@ gulp.task('serve', () => {
 gulp.task('styles', () => {
   gulp.src([paths.src.sass])
     .pipe(sassGlob())
-    .on('error', util.log)
+    .on('error', log)
     .pipe(sass({
       includePaths: ['src/scss'],
     }))
-    .on('error', util.log)
+    .on('error', log)
     .pipe(prefixer('last 2 versions'))
-    .on('error', util.log)
+    .on('error', log)
     .pipe(gulp.dest(paths.dist.css))
     .pipe(browserSync.reload({stream: true}));
 });
@@ -76,11 +76,11 @@ gulp.task('templates', () => {
 
   gulp.src([paths.src.root + '/*.hbs'])
     .pipe(handlebars(null, opts))
-    .on('error', util.log)
+    .on('error', log)
     .pipe(rename({
       extname: '.html',
     }))
-    .on('error', util.log)
+    .on('error', log)
     .pipe(gulp.dest(paths.dist.root))
     .pipe(browserSync.reload({stream: true}));
 });
@@ -95,9 +95,9 @@ gulp.task('scripts', ['tslint'], () => {
       presets: ['env'],
     }))
     .pipe(concat('bundle.js'))
-    .on('error', util.log)
+    .on('error', log)
     .pipe(uglify())
-    .on('error', util.log)
+    .on('error', log)
     .pipe(gulp.dest(paths.dist.javascript))
     .pipe(browserSync.reload({stream: true}));
 
@@ -107,11 +107,11 @@ gulp.task('scripts', ['tslint'], () => {
   gulp.src([paths.src.libs])
     .pipe(tsLibProject())
     .pipe(uglify())
-    .on('error', util.log)
+    .on('error', log)
     .pipe(rename({
       suffix: '.min',
     }))
-    .on('error', util.log)
+    .on('error', log)
     .pipe(gulp.dest(paths.dist.libs))
     .pipe(browserSync.reload({stream: true}));
 });
