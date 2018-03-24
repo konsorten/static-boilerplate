@@ -24,10 +24,10 @@ Navigate to the directory to where it was cloned.
 cd boilerplate
 ```
 
-Install all dependencies using npm:
+Install all dependencies using yarn:
 
 ```sh
-npm install
+yarn install
 ```
 
 Run the default Gulp task to get started:

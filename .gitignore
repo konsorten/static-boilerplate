@@ -4,6 +4,7 @@ npm-debug.log
 dist/*
 .publish
 *.log
+yarn.lock
 
 *.hbs
 partials/*
