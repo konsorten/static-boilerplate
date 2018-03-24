@@ -15,6 +15,7 @@ const sassGlob      = require('gulp-sass-bulk-import');
 const watch         = require('gulp-watch');
 const babel         = require('gulp-babel');
 const typescript    = require('gulp-typescript');
+const tslint        = require('gulp-tslint');
 
 const tsProject     = typescript.createProject('tsconfig.json');
 const tsLibProject  = typescript.createProject('tsconfig.lib.json');
@@ -87,7 +88,7 @@ gulp.task('templates', () => {
 /*
 * Bundle all javascript files
 */
-gulp.task('scripts', () => {
+gulp.task('scripts', ['tslint'], () => {
   gulp.src(paths.src.typescript)
     .pipe(tsProject())
     .pipe(babel({
@@ -124,6 +125,17 @@ gulp.task('files', () => {
   gulp.src([paths.src.files])
     .pipe(gulp.dest(paths.dist.root));
 });
+
+gulp.task('tslint', () => {
+  gulp.src(paths.src.typescript)
+    .pipe(tslint({
+        configuration: './tslint.json',
+        formatter: 'prose'
+    }))
+    .pipe(tslint.report({
+        summarizeFailureOutput: true
+    }))
+})
 
 watch(paths.src.images, () => {
   gulp.start('images');
