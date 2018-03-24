@@ -3,8 +3,8 @@
  *
  * @return {[type]} [description]
  */
-let test = (a, b) => {
+function test(a: string, b: string): string {
   return `Test: ${a} and ${b}`;
-};
+}
 
 console.log(test('yo', 'bro'));

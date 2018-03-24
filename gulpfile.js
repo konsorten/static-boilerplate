@@ -1,19 +1,23 @@
 'use strict';
 
-const gulp        = require('gulp');
-const del         = require('del');
-const util        = require('gulp-util');
-const sass        = require('gulp-sass');
-const prefixer    = require('gulp-autoprefixer');
-const uglify      = require('gulp-uglify');
-const concat      = require('gulp-concat');
-const rename      = require('gulp-rename');
-const handlebars  = require('gulp-compile-handlebars');
-const browserSync = require('browser-sync');
-const ghPages     = require('gulp-gh-pages');
-const sassGlob    = require('gulp-sass-bulk-import');
-const watch       = require('gulp-watch');
-const babel       = require('gulp-babel');
+const gulp          = require('gulp');
+const del           = require('del');
+const util          = require('gulp-util');
+const sass          = require('gulp-sass');
+const prefixer      = require('gulp-autoprefixer');
+const uglify        = require('gulp-uglify');
+const concat        = require('gulp-concat');
+const rename        = require('gulp-rename');
+const handlebars    = require('gulp-compile-handlebars');
+const browserSync   = require('browser-sync');
+const ghPages       = require('gulp-gh-pages');
+const sassGlob      = require('gulp-sass-bulk-import');
+const watch         = require('gulp-watch');
+const babel         = require('gulp-babel');
+const typescript    = require('gulp-typescript');
+
+const tsProject     = typescript.createProject('tsconfig.json');
+const tsLibProject  = typescript.createProject('tsconfig.lib.json');
 
 var paths = {
   src: { root: 'src' },
@@ -21,8 +25,8 @@ var paths = {
   init: function() {
     this.src.sass        = this.src.root + '/scss/main.scss';
     this.src.templates   = this.src.root + '/**/*.hbs';
-    this.src.javascript  = [this.src.root + '/js/**/*.js', '!' + this.src.root + '/js/libs/*.js'];
-    this.src.libs        = this.src.root + '/js/libs/*.js';
+    this.src.typescript  = [this.src.root + '/ts/**/*.ts', '!' + this.src.root + '/ts/libs/*.ts'];
+    this.src.libs        = this.src.root + '/ts/libs/*.ts';
     this.src.images      = this.src.root + '/images/**/*.{jpg,jpeg,svg,png,gif}';
     this.src.files       = this.src.root + '/*.{html,txt}';
 
@@ -84,7 +88,8 @@ gulp.task('templates', () => {
 * Bundle all javascript files
 */
 gulp.task('scripts', () => {
-  gulp.src(paths.src.javascript)
+  gulp.src(paths.src.typescript)
+    .pipe(tsProject())
     .pipe(babel({
       presets: ['es2015'],
     }))
@@ -99,6 +104,7 @@ gulp.task('scripts', () => {
   * Uglify JS libs and move to dist folder
   */
   gulp.src([paths.src.libs])
+    .pipe(tsLibProject())
     .pipe(uglify())
     .on('error', util.log)
     .pipe(rename({
@@ -129,7 +135,7 @@ watch(paths.src.files, () => {
 
 gulp.task('watch', () => {
   gulp.watch('src/scss/**/*.scss', ['styles']);
-  gulp.watch(paths.src.javascript, ['scripts']);
+  gulp.watch(paths.src.typescript, ['scripts']);
   gulp.watch(paths.src.templates, ['templates']);
 });
 
