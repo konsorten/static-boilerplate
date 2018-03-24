@@ -1,8 +1,8 @@
 # Boilerplate
 
-[![forthebadge](http://forthebadge.com/images/badges/powered-by-netflix.svg)](http://forthebadge.com)
+A starting point for creating static websites with typescript.
 
-A starting point for creating static websites.
+Based on [Boilerplate](https://github.com/jadnco/static-boilerplate) by [Jaden Dessureault](https://github.com/jadnco)
 
 Features:
 * Sass/SCSS
@@ -15,7 +15,7 @@ Features:
 Clone the repo using `git clone` or by clicking the *Download ZIP* button to the right.
 
 ```sh
-git clone https://github.com/jadnco/boilerplate.git
+git clone https://github.com/konsorten/boilerplate.git
 ```
 
 Navigate to the directory to where it was cloned.
@@ -54,5 +54,6 @@ gulp deploy
 
 ### Credits
 
+- Based on [Boilerplate](https://github.com/jadnco/static-boilerplate) by [Jaden Dessureault](https://github.com/jadnco)
 - Responsive grid from [Skeleton](http://getskeleton.com) by [Dave Gamache](https://github.com/dhg)
 
