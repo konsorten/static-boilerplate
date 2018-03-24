@@ -92,7 +92,7 @@ gulp.task('scripts', ['tslint'], () => {
   gulp.src(paths.src.typescript)
     .pipe(tsProject())
     .pipe(babel({
-      presets: ['es2015'],
+      presets: ['env'],
     }))
     .pipe(concat('bundle.js'))
     .on('error', util.log)
